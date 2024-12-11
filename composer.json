@@ -1,0 +1,14 @@
+{
+    "name": "hacker-prime/compuzign-artifactory-cli",
+    "description": "A command-line interface (CLI) tool for managing JFrog Artifactory instances",
+    "authors": [
+        {
+            "name": "Shayn Hacker",
+            "email": "shaynhacker@gmail.com"
+        }
+    ],
+    "require": {
+        "symfony/console": "^5.3",
+        "guzzlehttp/guzzle": "^7.3"
+    }
+}
