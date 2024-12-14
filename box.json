@@ -1,0 +1,13 @@
+{
+    "main": "bin/console",
+    "output": "compuzign-artifactory-cli.phar",
+    "directories": [
+        "src",
+        "vendor"
+    ],
+    "files": [
+        "composer.json"
+    ],
+    "compression": "GZ",
+    "stub": true
+}
