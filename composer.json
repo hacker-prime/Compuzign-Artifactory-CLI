@@ -9,6 +9,16 @@
     ],
     "require": {
         "symfony/console": "^5.3",
-        "guzzlehttp/guzzle": "^7.3"
+        "guzzlehttp/guzzle": "^7.4",
+        "symfony/deprecation-contracts": "^2.2"
+    },
+    "bin": [
+        "bin/console"
+    ],
+    "scripts": {
+        "build-phar": "sh scripts/build-phar.sh"
+    },
+    "require-dev": {
+    "humbug/box": "^3.11"
     }
 }
