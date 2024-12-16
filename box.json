@@ -1,5 +1,5 @@
 {
-    "main": "bin/console",
+    "main": "src/index.php",
     "output": "compuzign-artifactory-cli.phar",
     "directories": [
         "src",
