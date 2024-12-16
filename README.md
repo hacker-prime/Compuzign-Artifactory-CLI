@@ -5,7 +5,12 @@ A command-line interface (CLI) tool for managing JFrog Artifactory instances, su
 
 To build the PHAR file for the Compuzign-Artifactory-CLI, follow these steps:
 
-1. Ensure you have [Box](https://github.com/box-project/box) installed. If not, you can install it by following the instructions on the Box GitHub page.
+1. Ensure you have [Box](https://github.com/box-project/box) installed via Composer. If not, you can install it by running:
+
+    ```bash
+    composer require --dev humbug/box
+    ```
+
 2. Run the following command to generate the PHAR file:
 
     ```bash
