@@ -8,10 +8,10 @@ class ComposerStaticInitc3f290bcde4ac248b61eeee5dae05131
 {
     public static $files = array (
         '6e3fae29631ef280660b3cdad06f25a8' => __DIR__ . '/..' . '/symfony/deprecation-contracts/function.php',
-        'e8aa6e4b5a1db2f56ae794f1505391a8' => __DIR__ . '/..' . '/amphp/amp/lib/functions.php',
-        '76cd0796156622033397994f25b0d8fc' => __DIR__ . '/..' . '/amphp/amp/lib/Internal/functions.php',
         '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
         'a4a119a56e50fbb293281d9a48007e0e' => __DIR__ . '/..' . '/symfony/polyfill-php80/bootstrap.php',
+        'e8aa6e4b5a1db2f56ae794f1505391a8' => __DIR__ . '/..' . '/amphp/amp/lib/functions.php',
+        '76cd0796156622033397994f25b0d8fc' => __DIR__ . '/..' . '/amphp/amp/lib/Internal/functions.php',
         '320cde22f66dd4f5d3fd621d3e88b98f' => __DIR__ . '/..' . '/symfony/polyfill-ctype/bootstrap.php',
         '8825ede83f2f289127722d4e842cf7e8' => __DIR__ . '/..' . '/symfony/polyfill-intl-grapheme/bootstrap.php',
         'e69f7f6ee287b969198c3c9d6777bd38' => __DIR__ . '/..' . '/symfony/polyfill-intl-normalizer/bootstrap.php',
@@ -164,6 +164,7 @@ class ComposerStaticInitc3f290bcde4ac248b61eeee5dae05131
             'Psr\\EventDispatcher\\' => 20,
             'Psr\\Container\\' => 14,
             'PhpParser\\' => 10,
+            'PhpOption\\' => 10,
             'ParagonIE\\Pharaoh\\' => 18,
             'ParagonIE\\ConstantTime\\' => 23,
             'PackageVersions\\' => 16,
@@ -190,6 +191,7 @@ class ComposerStaticInitc3f290bcde4ac248b61eeee5dae05131
             'GuzzleHttp\\Psr7\\' => 16,
             'GuzzleHttp\\Promise\\' => 19,
             'GuzzleHttp\\' => 11,
+            'GrahamCampbell\\ResultType\\' => 26,
             'GetOpt\\' => 7,
         ),
         'F' => 
@@ -198,6 +200,7 @@ class ComposerStaticInitc3f290bcde4ac248b61eeee5dae05131
         ),
         'D' => 
         array (
+            'Dotenv\\' => 7,
             'Doctrine\\Deprecations\\' => 22,
         ),
         'C' => 
@@ -223,8 +226,8 @@ class ComposerStaticInitc3f290bcde4ac248b61eeee5dae05131
         'phpDocumentor\\Reflection\\' => 
         array (
             0 => __DIR__ . '/..' . '/phpdocumentor/reflection-common/src',
-            1 => __DIR__ . '/..' . '/phpdocumentor/type-resolver/src',
-            2 => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src',
+            1 => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src',
+            2 => __DIR__ . '/..' . '/phpdocumentor/type-resolver/src',
         ),
         'Webmozart\\PathUtil\\' => 
         array (
@@ -319,6 +322,10 @@ class ComposerStaticInitc3f290bcde4ac248b61eeee5dae05131
         array (
             0 => __DIR__ . '/..' . '/nikic/php-parser/lib/PhpParser',
         ),
+        'PhpOption\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/phpoption/phpoption/src/PhpOption',
+        ),
         'ParagonIE\\Pharaoh\\' => 
         array (
             0 => __DIR__ . '/..' . '/paragonie/pharaoh/src/Pharaoh',
@@ -363,6 +370,10 @@ class ComposerStaticInitc3f290bcde4ac248b61eeee5dae05131
         array (
             0 => __DIR__ . '/..' . '/guzzlehttp/guzzle/src',
         ),
+        'GrahamCampbell\\ResultType\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/graham-campbell/result-type/src',
+        ),
         'GetOpt\\' => 
         array (
             0 => __DIR__ . '/..' . '/ulrichsg/getopt-php/src',
@@ -370,6 +381,10 @@ class ComposerStaticInitc3f290bcde4ac248b61eeee5dae05131
         'Fidry\\Console\\' => 
         array (
             0 => __DIR__ . '/..' . '/fidry/console/src',
+        ),
+        'Dotenv\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/vlucas/phpdotenv/src',
         ),
         'Doctrine\\Deprecations\\' => 
         array (
