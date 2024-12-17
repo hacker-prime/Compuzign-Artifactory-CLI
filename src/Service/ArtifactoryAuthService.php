@@ -9,14 +9,21 @@ class ArtifactoryAuthService
 {
     private $client;
 
-    public function __construct()
+    public function __construct(Client $client)
     {
-        $this->client = new Client();
+        $this->client = $client;
     }
 
-    public function authenticate($username, $password)
+    public function authenticate()
     {
-        $url = 'https://your-artifactory-instance.com/artifactory/api/security/token';
+        // Fetch credentials and URL from environment variables
+        $username = $_ENV['ARTIFACTORY_USERNAME'];
+        $password = $_ENV['ARTIFACTORY_PASSWORD'];
+        $url = $_ENV['ARTIFACTORY_BASE_URL']. '/artifactory/api/security/token';
+
+        if (!$username || !$password || !$url) {
+            throw new \Exception('Environment variables for Artifactory are not properly set.');
+        }
 
         try {
             $response = $this->client->post($url, [
@@ -36,7 +43,11 @@ class ArtifactoryAuthService
                 throw new \Exception('Authentication failed: Invalid response from Artifactory API.');
             }
         } catch (RequestException $e) {
-            throw new \Exception('Authentication failed: ' . $e->getMessage());
+            // Detailed error handling
+            $statusCode = $e->getResponse() ? $e->getResponse()->getStatusCode() : 'unknown';
+            $errorMessage = $e->getResponse() ? $e->getResponse()->getBody() : $e->getMessage();
+
+            throw new \Exception("Authentication failed [HTTP {$statusCode}]: {$errorMessage}");
         }
     }
 }

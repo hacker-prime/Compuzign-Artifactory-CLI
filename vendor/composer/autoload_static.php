@@ -211,6 +211,7 @@ class ComposerStaticInitc3f290bcde4ac248b61eeee5dae05131
         ),
         'A' => 
         array (
+            'App\\' => 4,
             'Amp\\Sync\\' => 9,
             'Amp\\Serialization\\' => 18,
             'Amp\\Process\\' => 12,
@@ -401,6 +402,10 @@ class ComposerStaticInitc3f290bcde4ac248b61eeee5dae05131
         'Composer\\Pcre\\' => 
         array (
             0 => __DIR__ . '/..' . '/composer/pcre/src',
+        ),
+        'App\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/src',
         ),
         'Amp\\Sync\\' => 
         array (
