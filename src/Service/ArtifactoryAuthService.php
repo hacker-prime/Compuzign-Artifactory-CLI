@@ -8,22 +8,17 @@ use GuzzleHttp\Exception\RequestException;
 class ArtifactoryAuthService
 {
     private $client;
+    private $tokenFile;
 
-    public function __construct(Client $client)
+    public function __construct(Client $client, string $tokenFile = __DIR__ . '/../../.token')
     {
         $this->client = $client;
+        $this->tokenFile = $tokenFile;
     }
 
-    public function authenticate()
+    public function authenticate($username, $password, $baseUrl)
     {
-        // Fetch credentials and URL from environment variables
-        $username = $_ENV['ARTIFACTORY_USERNAME'];
-        $password = $_ENV['ARTIFACTORY_PASSWORD'];
-        $url = $_ENV['ARTIFACTORY_BASE_URL']. '/artifactory/api/security/token';
-
-        if (!$username || !$password || !$url) {
-            throw new \Exception('Environment variables for Artifactory are not properly set.');
-        }
+        $url = rtrim($baseUrl, '/') . '/artifactory/api/security/token';
 
         try {
             $response = $this->client->post($url, [
@@ -38,16 +33,30 @@ class ArtifactoryAuthService
             $data = json_decode($response->getBody(), true);
 
             if (isset($data['access_token'])) {
+                $this->storeToken($data['access_token']);
                 return $data['access_token'];
             } else {
                 throw new \Exception('Authentication failed: Invalid response from Artifactory API.');
             }
         } catch (RequestException $e) {
-            // Detailed error handling
             $statusCode = $e->getResponse() ? $e->getResponse()->getStatusCode() : 'unknown';
             $errorMessage = $e->getResponse() ? $e->getResponse()->getBody() : $e->getMessage();
-
             throw new \Exception("Authentication failed [HTTP {$statusCode}]: {$errorMessage}");
         }
     }
+
+    private function storeToken($token)
+    {
+        file_put_contents($this->tokenFile, $token);
+    }
+
+    public function getToken()
+    {
+        if (file_exists($this->tokenFile)) {
+            return trim(file_get_contents($this->tokenFile));
+        }
+        throw new \Exception("No token found. Please login first.");
+    }
 }
+
+?>

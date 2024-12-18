@@ -5,14 +5,17 @@ require __DIR__ . '/../vendor/autoload.php';
 
 use Symfony\Component\Console\Application;
 use App\Command\LoginCommand;
+use App\Command\ShowTokenCommand;
 use App\Service\ArtifactoryAuthService;
 use App\Service\EnvService;
+use GuzzleHttp\Client;
 
 $application = new Application();
 
-$authService = new ArtifactoryAuthService();
+$authService = new ArtifactoryAuthService(new Client());
 $envService = new EnvService();
 
 $application->add(new LoginCommand($authService, $envService));
+$application->add(new ShowTokenCommand()); // Register ShowTokenCommand
 
 $application->run();
