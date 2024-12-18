@@ -47,4 +47,10 @@ Once you have built the PHAR file, you can use it to run the CLI commands. Here 
     php compuzign-artifactory-cli.phar system:info
     ```
 
+5. Create a new user:
+
+    ```bash
+    php compuzign-artifactory-cli.phar user:create <username> <password> <email> [--admin]
+    ```
+
 For more information on available commands, you can use the `help` command as shown above.
