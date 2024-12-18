@@ -53,32 +53,52 @@ class ArtifactoryAuthService
     public function getToken()
     {
         if (file_exists($this->tokenFile)) {
-            return trim(file_get_contents($this->tokenFile));
+            $token = trim(file_get_contents($this->tokenFile));
+    
+            if ($this->isTokenExpired($token)) {
+                $this->authenticate($_ENV['ARTIFACTORY_USERNAME'], $_ENV['ARTIFACTORY_PASSWORD'], $_ENV['ARTIFACTORY_BASE_URL']);
+                $token = trim(file_get_contents($this->tokenFile));
+            }
+    
+            return $token;
         }
         throw new \Exception("No token found. Please login first.");
     }
-
-    public function createUser(array $userData)
+    
+    private function isTokenExpired($token)
+    {
+        $parts = explode('.', $token);
+        $payload = json_decode(base64_decode($parts[1]), true);
+    
+        return isset($payload['exp']) && $payload['exp'] < time();
+    }
+    
+    public function createUser(array $userData, $baseUrl)
     {
         $token = $this->getToken();
-        $url = rtrim($baseUrl, '/') . '/artifactory/api/security/users';
-
+        $url = rtrim($baseUrl, '/') . '/artifactory/api/security/users/' . $userData['name'];
+    
         try {
-            $response = $this->client->post($url, [
+            $response = $this->client->put($url, [
                 'headers' => [
                     'Authorization' => "Bearer {$token}",
                     'Content-Type' => 'application/json'
                 ],
                 'json' => $userData
             ]);
-
-            return json_decode($response->getBody(), true);
+    
+            if ($response->getStatusCode() === 201) {
+                return "User '{$userData['name']}' created successfully.";
+            }
+    
+            throw new \Exception('User creation failed: ' . $response->getReasonPhrase());
         } catch (RequestException $e) {
             $statusCode = $e->getResponse() ? $e->getResponse()->getStatusCode() : 'unknown';
-            $errorMessage = $e->getResponse() ? $e->getResponse()->getBody() : $e->getMessage();
+            $errorMessage = $e->getResponse() ? $e->getResponse()->getBody()->getContents() : $e->getMessage();
             throw new \Exception("User creation failed [HTTP {$statusCode}]: {$errorMessage}");
         }
     }
+    
 }
 
 ?>

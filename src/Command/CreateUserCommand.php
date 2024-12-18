@@ -17,10 +17,11 @@ class CreateUserCommand extends Command
 
     private $authService;
 
-    public function __construct()
+
+    public function __construct(ArtifactoryAuthService $authService)
     {
-        parent::__construct();
-        $this->authService = new ArtifactoryAuthService(new Client());
+    parent::__construct();
+    $this->authService = $authService;
     }
 
     protected function configure()
@@ -35,10 +36,17 @@ class CreateUserCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        // Gather input arguments and options
         $username = $input->getArgument('username');
         $password = $input->getArgument('password');
         $email = $input->getArgument('email');
         $isAdmin = $input->getOption('admin');
+        $baseUrl = $_ENV['ARTIFACTORY_BASE_URL'];
+
+        if (!$baseUrl) {
+            $output->writeln("<error>Artifactory Base URL is not set. Please set the ARTIFACTORY_BASE_URL environment variable.</error>");
+            return Command::FAILURE;
+        }
 
         $userData = [
             'name' => $username,
@@ -48,8 +56,9 @@ class CreateUserCommand extends Command
         ];
 
         try {
-            $response = $this->authService->createUser($userData);
-            $output->writeln("<info>User \"{$username}\" created successfully!</info>");
+            // Pass userData and baseUrl to createUser method
+            $response = $this->authService->createUser($userData, $baseUrl);
+            $output->writeln("<info>{$response}</info>");
         } catch (\Exception $e) {
             $output->writeln("<error>Failed to create user: {$e->getMessage()}</error>");
             return Command::FAILURE;
