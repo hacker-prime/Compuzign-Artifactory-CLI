@@ -57,6 +57,28 @@ class ArtifactoryAuthService
         }
         throw new \Exception("No token found. Please login first.");
     }
+
+    public function createUser(array $userData)
+    {
+        $token = $this->getToken();
+        $url = rtrim($baseUrl, '/') . '/artifactory/api/security/users';
+
+        try {
+            $response = $this->client->post($url, [
+                'headers' => [
+                    'Authorization' => "Bearer {$token}",
+                    'Content-Type' => 'application/json'
+                ],
+                'json' => $userData
+            ]);
+
+            return json_decode($response->getBody(), true);
+        } catch (RequestException $e) {
+            $statusCode = $e->getResponse() ? $e->getResponse()->getStatusCode() : 'unknown';
+            $errorMessage = $e->getResponse() ? $e->getResponse()->getBody() : $e->getMessage();
+            throw new \Exception("User creation failed [HTTP {$statusCode}]: {$errorMessage}");
+        }
+    }
 }
 
 ?>
