@@ -30,4 +30,21 @@ class DeleteUserCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $username = $input->getArgument('username');
-        $baseUrl = $_ENV['ARTIFACTORY_BASE_URL
+        $baseUrl = $_ENV['ARTIFACTORY_BASE_URL'];
+
+        if (!$baseUrl) {
+            $output->writeln("<error>Artifactory Base URL is not set. Please set the ARTIFACTORY_BASE_URL environment variable.</error>");
+            return Command::FAILURE;
+        }
+
+        try {
+            $response = $this->authService->deleteUser($username, $baseUrl);
+            $output->writeln("<info>{$response}</info>");
+        } catch (\Exception $e) {
+            $output->writeln("<error>Failed to delete user: {$e->getMessage()}</error>");
+            return Command::FAILURE;
+        }
+
+        return Command::SUCCESS;
+    }
+}

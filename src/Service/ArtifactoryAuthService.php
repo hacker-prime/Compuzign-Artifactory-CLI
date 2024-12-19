@@ -103,7 +103,7 @@ class ArtifactoryAuthService
     {
         $token = $this->getToken();
         $url = rtrim($baseUrl, '/') . '/artifactory/api/security/users/' . $username;
-
+    
         try {
             $response = $this->client->delete($url, [
                 'headers' => [
@@ -111,17 +111,24 @@ class ArtifactoryAuthService
                     'Content-Type' => 'application/json'
                 ]
             ]);
-
-            if ($response->getStatusCode() === 204) {
+    
+            $statusCode = $response->getStatusCode();
+            $responseBody = $response->getBody()->getContents();
+    
+            // Check if the response status and body confirm deletion
+            if ($statusCode === 200 && strpos($responseBody, "has been removed successfully") !== false) {
                 return "User '{$username}' deleted successfully.";
             }
-
-            throw new \Exception('User deletion failed: ' . $response->getReasonPhrase());
+    
+            // If status code isn't 204 or response isn't as expected, throw an exception
+            throw new \Exception("User deletion failed [HTTP {$statusCode}]: {$responseBody}");
         } catch (RequestException $e) {
             $statusCode = $e->getResponse() ? $e->getResponse()->getStatusCode() : 'unknown';
             $errorMessage = $e->getResponse() ? $e->getResponse()->getBody()->getContents() : $e->getMessage();
             throw new \Exception("User deletion failed [HTTP {$statusCode}]: {$errorMessage}");
         }
     }
+    
+    
 }
 ?>

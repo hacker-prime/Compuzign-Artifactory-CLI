@@ -7,6 +7,7 @@ use Symfony\Component\Console\Application;
 use App\Command\LoginCommand;
 use App\Command\ShowTokenCommand;
 use App\Command\CreateUserCommand;
+use App\Command\DeleteUserCommand; 
 use App\Service\ArtifactoryAuthService;
 use App\Service\EnvService;
 use GuzzleHttp\Client;
@@ -24,5 +25,6 @@ $envService = new EnvService();
 $application->add(new LoginCommand($authService, $envService));
 $application->add(new ShowTokenCommand());
 $application->add(new CreateUserCommand($authService)); // Register CreateUserCommand
+$application->add(new DeleteUserCommand($authService)); // Register DeleteUserCommand
 
 $application->run();
