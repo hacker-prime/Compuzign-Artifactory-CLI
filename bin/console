@@ -8,6 +8,7 @@ use App\Command\LoginCommand;
 use App\Command\ShowTokenCommand;
 use App\Command\CreateUserCommand;
 use App\Command\DeleteUserCommand; 
+use App\Command\SystemVersionCommand;
 use App\Service\ArtifactoryAuthService;
 use App\Service\EnvService;
 use GuzzleHttp\Client;
@@ -26,5 +27,8 @@ $application->add(new LoginCommand($authService, $envService));
 $application->add(new ShowTokenCommand());
 $application->add(new CreateUserCommand($authService)); // Register CreateUserCommand
 $application->add(new DeleteUserCommand($authService)); // Register DeleteUserCommand
+// Register SystemVersionCommand
+$application->add(new SystemVersionCommand($authService));
+
 
 $application->run();
