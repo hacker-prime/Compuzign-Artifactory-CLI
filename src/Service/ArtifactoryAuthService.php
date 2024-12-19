@@ -98,7 +98,30 @@ class ArtifactoryAuthService
             throw new \Exception("User creation failed [HTTP {$statusCode}]: {$errorMessage}");
         }
     }
-    
-}
 
+    public function deleteUser($username, $baseUrl)
+    {
+        $token = $this->getToken();
+        $url = rtrim($baseUrl, '/') . '/artifactory/api/security/users/' . $username;
+
+        try {
+            $response = $this->client->delete($url, [
+                'headers' => [
+                    'Authorization' => "Bearer {$token}",
+                    'Content-Type' => 'application/json'
+                ]
+            ]);
+
+            if ($response->getStatusCode() === 204) {
+                return "User '{$username}' deleted successfully.";
+            }
+
+            throw new \Exception('User deletion failed: ' . $response->getReasonPhrase());
+        } catch (RequestException $e) {
+            $statusCode = $e->getResponse() ? $e->getResponse()->getStatusCode() : 'unknown';
+            $errorMessage = $e->getResponse() ? $e->getResponse()->getBody()->getContents() : $e->getMessage();
+            throw new \Exception("User deletion failed [HTTP {$statusCode}]: {$errorMessage}");
+        }
+    }
+}
 ?>
