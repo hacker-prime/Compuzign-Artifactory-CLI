@@ -59,4 +59,10 @@ Once you have built the PHAR file, you can use it to run the CLI commands. Here 
     php compuzign-artifactory-cli.phar user:delete <username>
     ```
 
+7. Retrieve and display the Artifactory system version:
+
+    ```bash
+    php compuzign-artifactory-cli.phar system:version
+    ```
+
 For more information on available commands, you can use the `help` command as shown above.
