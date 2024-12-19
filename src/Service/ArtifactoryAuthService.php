@@ -128,7 +128,34 @@ class ArtifactoryAuthService
             throw new \Exception("User deletion failed [HTTP {$statusCode}]: {$errorMessage}");
         }
     }
-    
-    
+
+    public function getSystemVersion($baseUrl)
+    {
+        $token = $this->getToken();
+        $url = rtrim($baseUrl, '/') . '/artifactory/api/system/version';
+
+        try {
+            $response = $this->client->get($url, [
+                'headers' => [
+                    'Authorization' => "Bearer {$token}",
+                    'Content-Type' => 'application/json'
+                ]
+            ]);
+
+            if ($response->getStatusCode() === 200) {
+                $data = json_decode($response->getBody(), true);
+                return [
+                    'version' => $data['version'],
+                    'revision' => $data['revision']
+                ];
+            }
+
+            throw new \Exception('Failed to retrieve system version: ' . $response->getReasonPhrase());
+        } catch (RequestException $e) {
+            $statusCode = $e->getResponse() ? $e->getResponse()->getStatusCode() : 'unknown';
+            $errorMessage = $e->getResponse() ? $e->getResponse()->getBody()->getContents() : $e->getMessage();
+            throw new \Exception("Failed to retrieve system version [HTTP {$statusCode}]: {$errorMessage}");
+        }
+    }
 }
 ?>
