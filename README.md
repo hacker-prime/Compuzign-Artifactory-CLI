@@ -53,4 +53,10 @@ Once you have built the PHAR file, you can use it to run the CLI commands. Here 
     php compuzign-artifactory-cli.phar user:create <username> <password> <email> [--admin]
     ```
 
+6. Delete a user:
+
+    ```bash
+    php compuzign-artifactory-cli.phar user:delete <username>
+    ```
+
 For more information on available commands, you can use the `help` command as shown above.
